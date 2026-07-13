@@ -1,34 +1,36 @@
 # calc — Go
 
-A tiny command-line arithmetic evaluator.
+A command-line arithmetic evaluator.
 
 ```
 calc "2 + 3 * 4"   ->   14
 ```
 
-## The task
-
 `eval.Eval` in `eval/eval.go` is a stub: it parses a single bare number and
-errors on everything else. Build it out into a real expression evaluator that
-supports:
+errors on everything else. Build it up over five steps, each harder than the
+last. `./check.sh` (`.\check.ps1` on Windows) is the gate: it runs the steps in
+order and stops at the first one that fails, so just keep making the next step
+pass.
 
-- the four binary operators `+ - * /` with standard precedence
-- parentheses
-- unary minus (e.g. `-3`, `2 * -4`, `-(2 + 3)`)
-- integer and decimal numbers
-- whitespace anywhere
+## Steps
 
-Malformed input (empty string, unbalanced parentheses, dangling operators,
-non-numeric junk) must return an error, not a wrong answer.
+1. **Core arithmetic** — `+ - * /` with standard precedence, parentheses, unary
+   minus, integer and decimal numbers. Malformed input must return an error.
+2. **Modulo** — the `%` operator, same precedence as `*` and `/`.
+3. **Power** — the `^` operator, right-associative, binding tighter than `* /`
+   (so `2 ^ 3 ^ 2 == 512` and `2 * 3 ^ 2 == 18`).
+4. **Functions** — `sqrt`, `abs`, `min`, `max`, `pow`, called like `sqrt(16)`
+   and `max(3, 7)`; arguments are themselves expressions.
+5. **Error positions** — when input has an unexpected character, the returned
+   error must name the 1-based column, e.g. `2 @ 3` → an error containing
+   `column 3`.
 
 ## The spec and the gate
 
-The tests in `eval/eval_test.go` are the specification. `./check.sh`
-(`.\check.ps1` on Windows) is the gate — it runs, in order:
+The tests in `eval/eval_test.go` (`TestStep1Core` … `TestStep5Errors`) are the
+specification, one per step. The gate runs, in order: `gofmt`, `go build`, then
+each step's unit tests plus an acceptance run of the built `calc` binary over
+`cases-stepN.txt`. It prints `CHECK PASSED` only when all five steps are green.
 
-1. `gofmt` formatting check
-2. `go build`
-3. `go test` (unit tests)
-4. an acceptance test: the built `calc` binary run over every line in `cases.txt`
-
-The gate passes only when all four stages are green.
+You are not expected to finish all five — get as far as you can; each step
+stands on its own.
