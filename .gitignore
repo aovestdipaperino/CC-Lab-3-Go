@@ -1,0 +1,4 @@
+/calc
+/calc.exe
+*.exe
+.claude/settings.json
