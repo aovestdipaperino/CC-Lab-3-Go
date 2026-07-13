@@ -26,7 +26,7 @@ if ! go test ./...; then
 fi
 
 echo "== 4/4 acceptance (calc over cases.txt) =="
-bin="$(mktemp -d)/calc"
+bin="./calc"
 if ! go build -o "$bin" .; then
   echo "CHECK FAILED (acceptance build)"
   exit 1

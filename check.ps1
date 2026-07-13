@@ -21,7 +21,7 @@ go test ./...
 if ($LASTEXITCODE -ne 0) { Write-Host "CHECK FAILED (test)"; exit 1 }
 
 Write-Host "== 4/4 acceptance (calc over cases.txt) =="
-$bin = Join-Path ([System.IO.Path]::GetTempPath()) 'calc-lab3.exe'
+$bin = Join-Path $PSScriptRoot 'calc.exe'
 go build -o $bin .
 if ($LASTEXITCODE -ne 0) { Write-Host "CHECK FAILED (acceptance build)"; exit 1 }
 $fail = 0
