@@ -1,5 +1,7 @@
 # CC-Lab-3-Go — `calc`
 
+[![GitHub stars](https://img.shields.io/github/stars/aovestdipaperino/CC-Lab-3-Go?logo=github&color=brightgreen)](https://github.com/aovestdipaperino/CC-Lab-3-Go/stargazers)
+
 Lab 3 (Go): implement a feature in stages and let a verification-gated loop
 confirm each one.
 
